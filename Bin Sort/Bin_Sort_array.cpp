@@ -1,53 +1,54 @@
 #include <iostream>
 #include <vector>
 
-void displayElements(const int* dataPtr, int count) {
-    int pos = 0;
-    while (pos < count) {
-        std::cout << dataPtr[pos] << " ";
-        pos++;
-    }
-    std::cout << '\n';
+using namespace std;
+
+void binSort(int arr[], int size) {
+	if (size <= 1)
+		return;
+
+	int minimum = arr[0];
+	int maximum = arr[0];
+
+	for (int index = 1; index < size; index++) {
+		if (arr[index] < minimum)
+			minimum = arr[index];
+		if (arr[index] > maximum)
+			maximum = arr[index];
+	}
+
+	vector<int> bins(maximum - minimum + 1, 0);
+
+	for (int index = 0; index < size; index++)
+		bins[arr[index] - minimum]++;
+
+	int index = 0;
+	for (int value = minimum; value <= maximum; value++) {
+		while (bins[value - minimum] > 0) {
+			arr[index++] = value;
+			bins[value - minimum]--;
+		}
+	}
 }
 
-void performBinSort(int* items, int numItems) {
-    if (numItems <= 1) return;
+void printArray(const int arr[], int size) {
+	for (int i = 0; i < size; i++)
+		cout << arr[i] << " ";
 
-    int minVal = items[0];
-    int maxVal = items[0];
-
-    for (int k = 1; k < numItems; ++k) {
-        if (items[k] < minVal) minVal = items[k];
-        if (items[k] > maxVal) maxVal = items[k];
-    }
-
-    int rangeSize = maxVal - minVal + 1;
-    std::vector<int> bucketCounts(rangeSize, 0);
-
-    for (int k = 0; k < numItems; ++k) {
-        bucketCounts[items[k] - minVal]++;
-    }
-
-    int writeIdx = 0;
-    for (size_t offset = 0; offset < bucketCounts.size(); offset++) {
-        while (bucketCounts[offset] > 0) {
-            items[writeIdx++] = static_cast<int>(offset) + minVal;
-            bucketCounts[offset]--;
-        }
-    }
+	cout << '\n';
 }
 
 int main() {
-    int inputData[] = {42, 32, 33, 52, 37, 47, 51};
-    int len = sizeof(inputData) / sizeof(inputData[0]);
+	int arr[] = {42, 32, 33, 52, 37, 47, 51};
+	int size = sizeof(arr) / sizeof(arr[0]);
 
-    std::cout << "Before sorting:\n";
-    displayElements(inputData, len);
+	cout << "Before sorting:\n";
+	printArray(arr, size);
 
-    performBinSort(inputData, len);
+	binSort(arr, size);
 
-    std::cout << "After sorting:\n";
-    displayElements(inputData, len);
+	cout << "After sorting:\n";
+	printArray(arr, size);
 
-    return 0;
+	return 0;
 }

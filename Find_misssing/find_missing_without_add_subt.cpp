@@ -1,29 +1,27 @@
 #include <iostream>
-#include <vector>
+using namespace std;
 
 int main() {
-    int sz;
-    std::cout << "Enter size of array :";
-    std::cin >> sz;
+    int n ;
+    cout << "Enter size of array :" ;
+    cin >> n ;
 
-    std::vector<int> numArray(sz);
+    int arr[n] ;
 
-    std::cout << "Enter the Elements in array :";
-    for (int k = 0; k < sz; k++) {
-        std::cin >> numArray[k];
+    cout<< "Enter the Elements in array :" ;
+    for(int i = 0 ; i < n ; i++){
+        cin>> arr[i] ;
     }
 
-    int xorAccumulator = 0;
+    int ans = 0;
 
-    for (int val = numArray[0]; val < sz; val++) {
-        xorAccumulator ^= val;
-    }
+    for (int i = arr[0]; i < n; i++)
+        ans ^= i;
 
-    for (int idx = numArray[0]; idx < sz - 1; idx++) {
-        xorAccumulator ^= numArray[idx];
-    }
+    for (int i = arr[0]; i < n - 1; i++)
+        ans ^= arr[i];
 
-    std::cout << "Missing number: " << xorAccumulator;
+    cout << "Missing number: " << ans;
 
     return 0;
 }
